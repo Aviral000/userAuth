@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 const signed = async (data) => {
+  console.log(signed);
   const { username, password } = data;
 
   if (!username || !password) {
@@ -9,7 +10,7 @@ const signed = async (data) => {
   }
 
   try {
-    const saltRounds = 10; // Specify the number of salt rounds
+    const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await User.create({ username, password: hashedPassword });
