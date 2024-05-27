@@ -1,9 +1,14 @@
-import React from 'react'
+// src/App.js
+import React from 'react';
+import { Button } from './components/ui/button';
+import Signup from './components/pages/Signup';
 
-export default function App() {
+function App() {
   return (
-    <div className='container'>
-      <h2 className="text-3xl font-bold underline">hello</h2>
+    <div className='flex flex-col items-center'>
+      <Signup />
     </div>
-  )
+  );
 }
+
+export default App;
