@@ -1,12 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './Homepage';
 
-export default function Signup() {
+export default function Login({ toggleLogged, updateUsername }) {
   const navigate = useNavigate();
+
   const [user, setUser] = useState({
     username: "",
     password: ""
@@ -28,7 +30,7 @@ export default function Signup() {
 
   const sendData = useCallback(async () => {
     try {
-      const response = await axios.post("http://localhost:8082/user/signup", {
+      const response = await axios.post("http://localhost:8082/user/login", {
         username: user.username,
         password: user.password
       }, {
@@ -40,15 +42,17 @@ export default function Signup() {
         username: "",
         password: ""
       });
-      navigate('/login');
+      updateUsername(user.username);
+      toggleLogged();
+      navigate('/');
     } catch (error) {
-      console.error("Error signing up:", error.response ? error.response.data : error.message);
+      console.error("Error logging in:", error.response ? error.response.data : error.message);
     }
   }, [user, navigate]);
 
   return (
     <div>
-      <h2 className="text-8xl font-extrabold flex-1 mt-20 text-teal-500">Sign-UP Page</h2>
+      <h2 className="text-8xl font-extrabold flex-1 mt-20 text-teal-500">Log-IN Page</h2>
       <div className="mt-10">
         <div>
           <Label className="text-lg text-teal-400">Username:</Label>
@@ -61,7 +65,7 @@ export default function Signup() {
       </div>
       <div className="mt-5 text-center">
         <Button variant="outline" size="lg" className="text-teal-500 text-lg" onClick={sendData}>
-          Sign Up
+          Log in
         </Button>
       </div>
     </div>

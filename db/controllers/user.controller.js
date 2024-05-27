@@ -12,6 +12,9 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try {
         const result = await loginUser(req.body);
+        res.cookie("token", result.token, {
+            maxAge: 60 * 60 * 1000
+        });
         res.status(200).send({ message: "success", report: result });
     } catch (error) {
         res.status(500).send({ message: "Error in Controller side", error: error })

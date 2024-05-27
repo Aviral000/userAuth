@@ -1,6 +1,8 @@
 const { date } = require('joi');
 const { User } = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 const signed = async (data) => {
   const { username, password } = data;
@@ -22,6 +24,17 @@ const signed = async (data) => {
   }
 };
 
+const generateToken = (username) => {
+  try {
+    const payload = { username: username };
+    const options = { expiresIn: "1h" };
+    const token = jwt.sign( payload, process.env.ACCESS_KEY, options );
+    return token
+  } catch (error) {
+    throw error;
+  }
+}
+
 const loginUser = async (data) => {
   const { username, password } = data;
 
@@ -39,8 +52,9 @@ const loginUser = async (data) => {
     if (!isPasswordMatch) {
       throw new Error('Invalid username or password');
     }
+    const jwtToken = generateToken(username);
 
-    return user;
+    return { data: user, token: jwtToken };
   } catch (error) {
     console.error('Error logging in:', error);
     throw error;
