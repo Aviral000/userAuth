@@ -1,8 +1,8 @@
-const User = require('../models/user.model');
+const { date } = require('joi');
+const { User } = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 const signed = async (data) => {
-  console.log(signed);
   const { username, password } = data;
 
   if (!username || !password) {
@@ -13,8 +13,9 @@ const signed = async (data) => {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = await User.create({ username, password: hashedPassword });
-    return newUser;
+    const data = new User({ username: username, password: hashedPassword });
+    const result = await data.save();
+    return result;
   } catch (error) {
     console.error('Error creating user:', error);
     throw error;

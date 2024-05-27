@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const Auth = (req, res, next) => {
-    console.log("Auth");
     const { authorization } = req.headers;
 
     if(!authorization || authorization !== process.env.ACCESS_KEY) {

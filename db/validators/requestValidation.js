@@ -1,7 +1,6 @@
 const { userBody } = require('./userValidator');
 
 const validUser = (req, res, next) => {
-    console.log("Validation Request");
     const userBodyValid = userBody.validate(req.body);
 
     if(userBodyValid.error) {

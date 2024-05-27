@@ -25,18 +25,44 @@ export default function Signup() {
   };
 
   const sendData = useCallback(async () => {
-    const { username, password } = user;
-
     try {
       const response = await axios.post("http://localhost:8082/user/signup", {
-        username,
-        password
+        username: user.username,
+        password: user.password
+      }, {
+        headers: {
+          'Authorization': "AviMalik"
+        }
       });
+      setUser({
+        username: "",
+        password: ""
+      })
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   }, [user]);
+
+  // const sendData = async () => {
+  //   try {
+  //     const response = await axios.post("http://localhost:8082/user/signup", {
+  //       username: user.username,
+  //       password: user.password
+  //     }, {
+  //       headers: {
+  //         'Authorization': "AviMalik"
+  //       }
+  //     });
+  //     setUser({
+  //       username: "",
+  //       password: ""
+  //     })
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error("Error signing up:", error.response ? error.response.data : error.message);
+  //   }
+  // }
 
   return (
     <div>
