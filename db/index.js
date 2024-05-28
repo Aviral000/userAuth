@@ -2,9 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
-
+const passport = require('passport')
+const configPassport = require('./config/passport');
 const userRouter = require('./routes/user.route');
-const Auth = require('./middlewares/Auth');
+
+configPassport(passport);
 
 const app = express();
 
@@ -20,7 +22,7 @@ mongoose.connect('mongodb://localhost:27017/auth',
     console.log("FAILED TO CONNECT:", error);
 })
 
-app.use("/user", Auth, userRouter);
+app.use("/user", userRouter);
 
 app.listen(8082,
     () => {

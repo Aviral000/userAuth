@@ -53,7 +53,7 @@ const loginUser = async (data) => {
       throw new Error('Invalid username or password');
     }
     const jwtToken = generateToken(username);
-
+    console.log(jwtToken);
     return { data: user, token: jwtToken };
   } catch (error) {
     console.error('Error logging in:', error);
@@ -61,4 +61,13 @@ const loginUser = async (data) => {
   }
 };
 
-module.exports = { signed, loginUser };
+const findUserByUsername = async (username) => {
+  try {
+    const user = await User.findOne({ username: username });
+    return user;
+  } catch (error) {
+    throw new error;
+  }
+}
+
+module.exports = { signed, loginUser, findUserByUsername };
